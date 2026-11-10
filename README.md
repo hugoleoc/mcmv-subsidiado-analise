@@ -1,27 +1,29 @@
 # Projeto Habitação MCMV: análise do Minha Casa, Minha Vida (MCMV-Subsidiado)
 
-Análise exploratória dos empreendimentos contratados no MCMV, modalidade subsidiada, a partir das bases abertas do Ministério das Cidades (Secretaria Nacional de Habitação, SNH). O projeto tem dois objetivos: entender **onde e quando** as contratações acontecem (análise territorial) e avaliar **o desempenho das empresas** responsáveis pelos empreendimentos (fase 2).
+Análise exploratória dos empreendimentos contratados no MCMV, modalidade subsidiada, a partir das bases abertas do Ministério das Cidades (Secretaria Nacional de Habitação, SNH). O projeto tem dois objetivos: entender **onde e quando** as contratações acontecem (análise territorial) e avaliar **a participação das empresas** responsáveis pelos empreendimentos (fase 2).
 
 **Fonte dos dados:** [Bases de dados do Programa Minha Casa, Minha Vida (gov.br/cidades)](https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/bases-de-dados-do-programa-minha-casa-minha-vida)
 
 **Dicionário de dados:** *Dicionários de Dados SNH*, versão 2.4, de 09/10/2025 (arquivo em `documentacao/`).
 
 ## Estrutura do projeto
+```text
 mcmv/
 ├── dados/
-│ ├── brutos/ # arquivos originais, sem alteração (não versionados)
-│ └── tratados/ # saídas geradas pelo código (não versionadas)
-├── documentacao/ # dicionários de dados em PDF
-├── figuras/ # gráficos exportados
+│   ├── brutos/          # arquivos originais, sem alteração (não versionados)
+│   └── tratados/        # saídas geradas pelo código (não versionadas)
+├── documentacao/        # dicionários de dados em PDF
+├── figuras/             # gráficos exportados
 ├── notebooks/
-│ ├── 01_carregamento.ipynb
-│ ├── analise_mcmv_subsidiado.py # análise territorial e de unidades
-│ └── mcmc_subsidiados_empresas.py # desempenho das empresas (fase 2)
+│   ├── 01_carregamento.ipynb
+│   ├── analise_mcmv_subsidiado.py   # análise territorial e de unidades
+│   └── mcmc_subsidiados_empresas.py # desempenho das empresas (fase 2)
 ├── src/
-│ └── preparacao.py # preparação compartilhada da base
+│   └── preparacao.py    # preparação compartilhada da base
 ├── README.md
 ├── requirements.txt
 └── .gitignore
+```
 
 **Arquitetura:** a preparação da base fica em `src/preparacao.py` e é usada pelos dois notebooks. Assim, qualquer correção de limpeza vale para as duas análises.
 
@@ -57,12 +59,12 @@ A coluna `txt_modalidade` identifica a forma de gestão do empreendimento no pro
 
 | Modalidade | Descrição | Fonte |
 |---|---|---|
-| **FAR** | Provisão habitacional subsidiada em áreas urbanas, com recursos do Fundo de Arrendamento Residencial (FAR). | Portaria Interministerial nº 175/2016 (MCMV-FAR) — *confirmar* |
-| **FAR - Compra Assistida** | Linha de atendimento em que a família escolhe um imóvel existente (novo ou usado) em vez de aguardar a construção. Usa recursos do FAR. | Caixa; Portaria MCID nº 591/2025; Portaria Conjunta MCID/MF nº 6/2025 — *confirmar texto da portaria* |
+| **FAR** | Provisão habitacional subsidiada em áreas urbanas, com recursos do Fundo de Arrendamento Residencial (FAR). | Lei n°10.188/2001|
+| **FAR - Compra Assistida** | Linha de atendimento em que a família escolhe um imóvel existente (novo ou usado) em vez de aguardar a construção. Usa recursos do FAR. | Caixa; Portaria MCID nº 591/2025; Portaria Conjunta MCID/MF nº 6/2025 |
 | **Entidades** | Empreendimentos promovidos por entidades organizadoras (cooperativas e associações) — *confirmar definição oficial* | Dicionário SNH (legenda) |
-| **Oferta Pública** | Empreendimentos contratados por meio de oferta pública de recursos — *confirmar definição oficial* | Dicionário SNH (legenda) |
-| **Rural** | Empreendimentos em área rural — *confirmar definição oficial* | Dicionário SNH (legenda) |
-| **FNHIS** | Recursos do Fundo Nacional de Habitação de Interesse Social — *confirmar definição oficial* | Dicionário SNH / Lei nº 11.124/2005 — *confirmar* |
+| **Oferta Pública** | Empreendimentos contratados por meio de oferta pública de recursos | Dicionário SNH (legenda) |
+| **Rural** | Empreendimentos em área rural | Dicionário SNH (legenda) |
+| **FNHIS** | Recursos do Fundo Nacional de Habitação de Interesse Social | Dicionário SNH / Lei nº 11.124/2005 |
 
 *Nota:* o dicionário de dados (SNH, v2.4, 09/10/2025) traz apenas a legenda das quatro modalidades; as definições acima devem ser conferidas nos atos normativos antes da publicação.
 
@@ -71,15 +73,19 @@ A coluna `txt_modalidade` identifica a forma de gestão do empreendimento no pro
 Gráficos em `notebooks/analise_mcmv_subsidiado.py`, seção 6:
 
 - **6.1** Valor contratado por trimestre (total).
+![Valor contratado por trimestre](figuras/valor_contratado_por_trimestre_total.png)
 - **6.2** Curva trimestral por região.
+![Curva trimestral por regiao](figuras/evolucao_valor_contratado_por_regiao.png)
 - **6.3** Total contratado por região, com participação.
+![Total contratado por regiao](figuras/valor_contratado_participacao_regiao.png)
 - **6.4** Valor por modalidade em cada região, com participação interna.
+![Modalidade por regiao](figuras/modalidades_contratadas_por_regiao.png)
 - **6.5 a 6.8** Unidades contratadas, entregues, vigentes e distratadas por região.
 - **6.9** Composição das unidades por região (entregues, vigentes e distratadas).
-
+![Composicao de unidades por regiao](figuras/modalidade_contratada_participacao_regiao.png)
 ## Análise de empresas (em andamento)
 
-Gráficos e tabelas em `notebooks/mcmc_subsidiados_empresas.py`. Dimensões de desempenho:
+Gráficos e tabelas em `notebooks/mcmc_subsidiados_empresas.py`. Avaliação de participação de mercado na modalidade subsidiados:
 
 - **Volume:** valor e unidades contratadas (contexto).
 - **Execução:** proporção de unidades entregues sobre as contratadas.
@@ -91,7 +97,7 @@ Métrica de proporção: **ponderada** (soma das unidades da empresa dividida pe
 ## Pontos de atenção
 
 - **2026 é parcial** (dados até 23/06/2026): totais anuais de 2026 ficam subestimados.
-- **`qtd_uh_vigentes`** é definida como "não entregues no município"; o significado exato ainda precisa ser confirmado.
+- **`qtd_uh_vigentes`** é definida como "não entregues no município"; título de análise.
 - **Grupos com CNPJ nulo** (registros sem `cod_operacao`) são agrupamentos aproximados.
 - **Modalidades `FNHIS` e `FAR - Compra Assistida`** estão fora da legenda do dicionário; são mantidas separadas.
 - **Municípios:** a base cobre 4.907 municípios; os demais não tiveram contratação.
